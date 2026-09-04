@@ -1,20 +1,191 @@
-<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Toolora - smart comparisons, AI tools and calculators"><title>Toolora — Smart tools</title><link rel="stylesheet" href="style.css"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1690258918399231"
-     crossorigin="anonymous"></script>
-</head><body>
-<header><a class="logo" href="#"><b>T</b> Toolora</a><nav><a href="#ai">AI</a><a href="#compare">Compare</a><a href="#tools">Tools</a></nav><button id="theme">☾</button></header>
-<section class="hero"><div><small>TOOLORA · SMART ENGINE</small><h1>Find it.<br><i>Compare it.</i><br>Use it.</h1><p>Comparații, calculatoare și instrumente inteligente într-un singur loc.</p><div class="search"><span>⌕</span><input id="search" placeholder="Caută orice… (Ctrl + K)"><button onclick="location.hash='compare'">Explorează</button></div><div class="chips"><button data-cat="phones">📱 Telefoane</button><button data-cat="laptops">💻 Laptopuri</button><button data-cat="cars">🚗 Mașini</button></div></div><aside><small>SMART SEARCH</small><div class="orb">✦</div><h3>„Vreau un telefon bun sub 3.000 lei.”</h3><p>înțelege → caută → compară → explică</p></aside></section>
-<div class="stats"><b>100+</b> produse · <b>12</b> tools · <b>0 lei</b> pentru început</div>
-<section id="ai"><div class="title"><div><small>01 / AI STUDIO</small><h2>AI Studio</h2></div><p>Unelte pregătite pentru motor AI real.</p></div><div class="grid">
-<article class="card searchable" data-search="rescrie text ai"><strong>✦</strong><h3>Rescrie natural</h3><p>Text clar, scurt sau profesional.</p><button class="open" data-tool="rewrite">Deschide →</button></article>
-<article class="card searchable" data-search="descriere produs"><strong>✎</strong><h3>Descriere produs</h3><p>Titlu, beneficii și descriere.</p><button class="open" data-tool="description">Deschide →</button></article>
-<article class="card searchable" data-search="traducator"><strong>文</strong><h3>Traducător</h3><p>Pregătit pentru traducere AI.</p><button class="open" data-tool="translate">Deschide →</button></article>
-<article class="card searchable" data-search="imagine prompt"><strong>▧</strong><h3>Image Prompt</h3><p>Prompturi pentru generatoare de imagini.</p><button class="open" data-tool="image">Deschide →</button></article></div></section>
-<section id="compare"><div class="title"><div><small>02 / COMPARE</small><h2>Compară mai mult.</h2></div><p>Caută modele, branduri sau produse din catalog.</p></div><div class="compare"><div class="bar"><select id="cat"><option value="phones">📱 Telefoane</option><option value="laptops">💻 Laptopuri</option><option value="cars">🚗 Mașini</option></select><input id="prodSearch" placeholder="Caută model sau brand…"></div><div id="matches"></div><div class="pick"><select id="a"></select><b>VS</b><select id="b"></select><button id="compareBtn">Compară</button></div><div id="result"></div></div><div class="note"><b>✦ AI + LIVE DATA</b><span>Următorul upgrade va permite căutarea modelelor care nu sunt în catalog, preluarea datelor și explicații AI. Necesită API/backend.</span></div></section>
-<section id="tools"><div class="title"><div><small>03 / TOOLS</small><h2>Everyday tools</h2></div><p>Funcționează direct în browser.</p></div><div class="grid">
-<article class="card searchable" data-search="procent calculator"><strong>%</strong><h3>Calculator procent</h3><p>Procent dintr-o valoare.</p><button class="open" data-tool="percent">Calculează →</button></article>
-<article class="card searchable" data-search="tva vat"><strong>▣</strong><h3>Calculator TVA</h3><p>Adaugă TVA unei sume.</p><button class="open" data-tool="vat">Calculează →</button></article>
-<article class="card searchable" data-search="parola password"><strong>⌘</strong><h3>Generator parole</h3><p>Parole generate local.</p><button class="open" data-tool="password">Generează →</button></article>
-<article class="card searchable" data-search="unitati conversie"><strong>↔</strong><h3>Conversie unități</h3><p>km, mile, kg, lb, °C, °F.</p><button class="open" data-tool="units">Deschide →</button></article>
-<article class="card searchable" data-search="varsta age"><strong>◷</strong><h3>Calculator vârstă</h3><p>Vârsta după data nașterii.</p><button class="open" data-tool="age">Calculează →</button></article>
-<article class="card searchable" data-search="qr code"><strong>▦</strong><h3>QR Code</h3><p>QR pentru orice link.</p><button class="open" data-tool="qr">Generează →</button></article></div><p id="none" hidden>Nu am găsit nimic.</p></section><footer>Toolora © 2026 · Smart tools. Better decisions.</footer>
-<div id="modal" hidden><div class="backdrop"></div><div class="modal"><button id="close">×</button><div id="body"></div></div></div><div id="toast"></div><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05060a">
+<meta name="description" content="Toolora — AI tools, smart comparison, QR codes, calculators and browser utilities.">
+<title>Toolora — Built by Society.</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1690258918399231" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="noise"></div>
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="Toolora home">
+    <span class="brand-mark">T</span><span>TOOLORA</span>
+  </a>
+  <div class="top-actions">
+    <button class="icon-btn" id="soundToggle" title="Sunet" aria-label="Pornește/oprește sunetele">🔊</button>
+    <button class="account-btn" id="accountBtn"><span class="account-avatar">◎</span><span id="accountLabel">Cont</span></button>
+    <button class="menu-btn" id="menuBtn" aria-label="Deschide meniul" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head"><b>Explore Toolora</b><button class="icon-btn" id="drawerClose">×</button></div>
+  <label class="drawer-search"><span>⌕</span><input id="menuSearch" placeholder="Caută un tool, produs sau secțiune…"></label>
+  <nav class="drawer-nav">
+    <a href="#ai" data-nav="ai studio inteligență artificială">✦ <span>AI Studio</span></a>
+    <a href="#compare" data-nav="compară produse telefoane laptopuri mașini">⇄ <span>Smart Compare</span></a>
+    <a href="#tools" data-nav="unelte calculatoare">◈ <span>Everyday Tools</span></a>
+    <a href="#media" data-nav="imagine compresor imagine">▧ <span>Media Lab</span></a>
+    <a href="#account" data-nav="cont autentificare login cont toolora">◉ <span>Contul meu</span></a>
+    <a href="#pricing" data-nav="pro abonament pret preturi premium">◆ <span>Toolora Pro</span></a>
+    <a href="#about" data-nav="despre toolora">◎ <span>About</span></a>
+  </nav>
+  <div class="drawer-tools-title">TOOL LIBRARY</div>
+  <div class="drawer-tools" id="drawerTools">
+    <button data-tool="rewrite">✦ Rescriere AI</button><button data-tool="description">✎ Descriere AI</button><button data-tool="translate">文 Traducător</button><button data-tool="image">▧ Generator imagini</button>
+    <button data-tool="percent">% Procent</button><button data-tool="vat">▣ TVA</button><button data-tool="password">⌘ Parole</button><button data-tool="qr">▦ QR Code</button>
+    <button data-tool="counter">123 Text Counter</button><button data-tool="json">{ } JSON</button><button data-tool="palette">◉ Color Palette</button><button data-tool="units">↔ Unit Converter</button>
+    <button data-tool="age">◷ Vârstă</button><button data-tool="compress">IMG Compressor</button><button data-tool="slug">TXT Slug</button><button data-tool="color">⌁ Color Picker</button>
+  </div>
+  <div class="drawer-foot">Built by Society.</div>
+</aside>
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+
+<main id="home">
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">TOOLORA · SMART TOOLBOX</div>
+    <h1>Less searching.<br><em>More doing.</em></h1>
+    <p>AI, comparații, calculatoare și utilitare rapide — într-un singur loc.</p>
+    <div class="main-search">
+      <button class="search-icon" id="mainSearchIcon" aria-label="Caută">⌕</button>
+      <input id="mainSearch" autocomplete="off" placeholder="Caută orice: iPhone, QR, calculator TVA, parole…">
+      <button id="mainSearchBtn">Caută</button>
+    </div>
+    <div class="quick-row">
+      <button data-jump="ai">✦ AI</button>
+      <button data-jump="compare">⇄ Compară</button>
+      <button data-jump="tools">◈ Tools</button>
+      <button data-jump="media">▧ Media</button>
+    </div>
+  </div>
+  <div class="hero-orbit" aria-hidden="true">
+    <div class="orbit-ring r1"></div><div class="orbit-ring r2"></div>
+    <div class="planet"><b>T</b></div>
+    <div class="orbit-dot"></div>
+    <div class="hero-tag">BUILT BY SOCIETY.</div>
+  </div>
+</section>
+
+<div class="ticker"><span>AI WRITING</span><span>IMAGE GENERATION</span><span>SMART COMPARE</span><span>QR CODES</span><span>LOCAL TOOLS</span><span>BUILT BY SOCIETY</span></div>
+
+<section id="ai" class="section">
+  <div class="section-title"><div><small>01 / AI STUDIO</small><h2>AI that actually does something.</h2></div><p>Rescrie, descrie, traduce, recomandă și generează imagini.</p></div>
+  <div class="feature-grid searchable-grid">
+    <article class="feature searchable accent-card assistant-card" data-search="asistent ai assistant intreaba orice ajutor task toolora">
+      <div class="feature-icon">◉</div><span class="pill">ASSISTANT</span><h3>Toolora Assistant</h3><p>Spune ce vrei să faci. Îți explică pașii, îți dă variante și te ajută să folosești fiecare tool.</p><button class="open-tool" data-tool="assistant">Întreabă AI →</button>
+    </article>
+    <article class="feature searchable" data-search="ai rescriere umana rescrie text scriere">
+      <div class="feature-icon">✦</div><span class="pill">WRITER</span><h3>Rescriere umană</h3><p>Transformă textul fără să-i piardă ideea: natural, scurt, profesional sau casual.</p><button class="open-tool" data-tool="rewrite">Deschide →</button>
+    </article>
+    <article class="feature searchable" data-search="descriere produs copywriting ecommerce titlu">
+      <div class="feature-icon">✎</div><span class="pill">COPY</span><h3>Descriere produs</h3><p>Generează titlu, beneficii și descriere pentru produse sau anunțuri.</p><button class="open-tool" data-tool="description">Generează →</button>
+    </article>
+    <article class="feature searchable" data-search="traducator traducere limbi translator">
+      <div class="feature-icon">文</div><span class="pill">LANG</span><h3>Traducător</h3><p>Traduce textul în limba aleasă, păstrând sensul și tonul.</p><button class="open-tool" data-tool="translate">Tradu →</button>
+    </article>
+    <article class="feature searchable accent-card" data-search="generator imagini imagine ai image generator">
+      <div class="feature-icon">▧</div><span class="pill">IMAGE</span><h3>Generator de imagini</h3><p>Scrii ideea, Toolora generează imaginea direct în pagină.</p><button class="open-tool" data-tool="image">Generează →</button>
+    </article>
+  </div>
+  <div class="ai-banner"><div><b>Toolora AI</b><span>Motorul AI rulează prin Cloudflare Workers AI, nu printr-o cheie expusă în browser.</span></div><span class="status-dot">● ready</span></div>
+</section>
+
+<section id="compare" class="section compare-section">
+  <div class="section-title"><div><small>02 / SMART COMPARE</small><h2>Compară aproape orice.</h2></div><p>Poți compara orice model: din catalog sau scris manual. AI-ul analizează perechea și îți dă un verdict practic.</p></div>
+  <div class="compare-shell">
+    <div class="compare-top">
+      <div class="segmented" id="compareTabs">
+        <button class="active" data-cat="cars">🚗 Mașini</button><button data-cat="phones">📱 Telefoane</button><button data-cat="laptops">💻 Laptopuri</button>
+      </div>
+      <div class="catalog-count" id="catalogCount">catalog extins</div>
+    </div>
+    <div class="compare-inputs">
+      <div class="compare-field"><label>Produs A</label><input id="compareA" list="catalogList" placeholder="ex. BMW M3"></div>
+      <div class="vs">VS</div>
+      <div class="compare-field"><label>Produs B</label><input id="compareB" list="catalogList" placeholder="ex. Mercedes-AMG C 63"></div>
+      <button class="primary big" id="smartCompareBtn">Compară cu AI</button>
+    </div>
+    <datalist id="catalogList"></datalist>
+    <div class="catalog-search"><span>⌕</span><input id="catalogSearch" placeholder="Caută în catalogul extins…"></div>
+    <div id="catalogMatches" class="catalog-matches"></div>
+    <div id="compareResult" class="compare-result"><div class="empty-state"><b>Alege două produse</b><span>Toolora poate compara și modele scrise manual, chiar dacă nu apar în catalog.</span></div></div>
+  </div>
+</section>
+
+<section id="tools" class="section">
+  <div class="section-title"><div><small>03 / EVERYDAY TOOLS</small><h2>Chestii mici, dar folositoare.</h2></div><p>Rulează direct în browser. Pentru fiecare tool poți cere și ajutor AI când ai nevoie.</p></div>
+  <div class="tool-grid searchable-grid">
+    <article class="mini searchable" data-search="calculator procent percent"><b>%</b><h3>Procent</h3><p>Calculează procente instant.</p><button class="open-tool" data-tool="percent">Deschide</button></article>
+    <article class="mini searchable" data-search="calculator tva vat"><b>▣</b><h3>TVA</h3><p>Adaugă sau scoate TVA.</p><button class="open-tool" data-tool="vat">Deschide</button></article>
+    <article class="mini searchable" data-search="generator parola password secure"><b>⌘</b><h3>Parole</h3><p>Generează parole sigure local.</p><button class="open-tool" data-tool="password">Generează</button></article>
+    <article class="mini searchable" data-search="qr code cod qr link"><b>▦</b><h3>QR Code</h3><p>Generează și descarcă un QR.</p><button class="open-tool" data-tool="qr">Generează</button></article>
+    <article class="mini searchable" data-search="text counter numaratoare caractere cuvinte"><b>123</b><h3>Text Counter</h3><p>Cuvinte, caractere, rânduri.</p><button class="open-tool" data-tool="counter">Deschide</button></article>
+    <article class="mini searchable" data-search="json formatter json format"><b>{ }</b><h3>JSON Formatter</h3><p>Formatează JSON fără haos.</p><button class="open-tool" data-tool="json">Deschide</button></article>
+    <article class="mini searchable" data-search="color palette culori paleta"><b>◉</b><h3>Color Palette</h3><p>Generează o paletă rapid.</p><button class="open-tool" data-tool="palette">Generează</button></article>
+    <article class="mini searchable" data-search="unitati conversie km mile kg lb celsius"><b>↔</b><h3>Unit Converter</h3><p>km, mile, kg, lb, °C, °F.</p><button class="open-tool" data-tool="units">Deschide</button></article>
+    <article class="mini searchable" data-search="varsta age data nasterii"><b>◷</b><h3>Vârstă</h3><p>Calculează vârsta exact.</p><button class="open-tool" data-tool="age">Calculează</button></article>
+  </div>
+</section>
+
+<section id="media" class="section">
+  <div class="section-title"><div><small>04 / MEDIA LAB</small><h2>Fișiere, fără bătăi de cap.</h2></div><p>Procesare locală în browser pentru lucruri rapide.</p></div>
+  <div class="media-grid">
+    <article class="media-card"><div class="media-art">IMG</div><h3>Image Compressor</h3><p>Micșorează imagini în browser și descarcă rezultatul.</p><button class="open-tool" data-tool="compress">Deschide</button></article>
+    <article class="media-card"><div class="media-art">TXT</div><h3>Slug Generator</h3><p>Transformă un titlu într-un URL curat.</p><button class="open-tool" data-tool="slug">Deschide</button></article>
+    <article class="media-card"><div class="media-art">⌁</div><h3>Color Picker</h3><p>Alege o culoare și copiază codul HEX.</p><button class="open-tool" data-tool="color">Deschide</button></article>
+  </div>
+</section>
+
+<section id="account" class="section account-section">
+  <div class="section-title"><div><small>05 / ACCOUNT</small><h2>Un cont. Mai multe posibilități.</h2></div><p>Primești 5 utilizări AI gratuite pe lună, apoi poți trece la Toolora Pro.</p></div>
+  <div class="account-panel">
+    <div><span class="pill">FREE</span><h3>5 credite AI gratuite / lună</h3><p>Rescriere, descrieri, traduceri, imagini și comparații AI. Instrumentele locale rămân gratuite.</p></div>
+    <div class="account-actions"><button class="primary" id="accountCta">Creează cont gratuit</button><span class="small-note">Nu cerem card pentru contul gratuit.</span></div>
+  </div>
+</section>
+
+<section id="pricing" class="section pricing-section">
+  <div class="section-title"><div><small>06 / PLANS</small><h2>Alege cât AI îți trebuie.</h2></div><p>Free pentru început, Pro pentru utilizare serioasă, Ultimate pentru power users.</p></div>
+  <div class="pricing-grid three">
+    <article class="price-card"><span class="pill">FREE</span><div class="price">0 <small>lei/lună</small></div><ul><li>5 credite AI/lună</li><li>Tools locale nelimitate</li><li>Smart Compare</li><li>Cont personal</li><li>Fără card</li></ul><button class="secondary" id="freePlanBtn">Plan gratuit</button></article>
+    <article class="price-card featured"><span class="pill">PRO</span><div class="price">19,90 <small>lei/lună</small></div><ul><li>100 credite AI/lună</li><li>Generator imagini</li><li>Smart Compare + Assistant</li><li>Prioritate la procesare</li><li>Fără reclame</li></ul><button class="primary" id="proBtn">Upgrade la Pro</button><span class="small-note">Stripe: produsul Toolora Pro este deja creat în Sandbox.</span></article>
+    <article class="price-card ultimate"><span class="pill">ULTIMATE</span><div class="price">35 <small>lei/lună</small></div><ul><li>300 credite AI/lună</li><li>Tot ce are Pro</li><li>Limite mai mari la imagini</li><li>Funcții AI noi mai devreme</li><li>Fără reclame + badge Ultimate</li></ul><button class="primary" id="ultimateBtn">Upgrade la Ultimate</button><span class="small-note">Stripe: produsul Toolora Ultimate este deja creat în Sandbox.</span></article>
+  </div>
+</section>
+
+<section id="about" class="about section">
+  <small>TOOLORA / 2026</small><h2>Tools made for people<br><em>who just want things done.</em></h2>
+  <p>Fără cont obligatoriu. Fără meniuri inutile. Toolora adună utilitare practice și AI într-o experiență simplă.</p>
+</section>
+</main>
+
+<footer><div class="footer-brand">TOOLORA</div><div>Smart tools. Better decisions.</div><div class="made">Built by Society.</div></footer>
+
+<div id="authModal" hidden>
+  <div class="modal-backdrop auth-backdrop"></div>
+  <div class="modal-box auth-box">
+    <button class="modal-close" id="authClose">×</button>
+    <div class="tool-head"><span class="pill">TOOLORA ACCOUNT</span><h2 id="authTitle">Creează-ți cont</h2><p id="authSubtitle">5 credite AI gratuite în fiecare lună.</p></div>
+    <div class="auth-tabs"><button class="active" id="signupTab">Creează cont</button><button id="loginTab">Intră în cont</button></div>
+    <form id="authForm" class="auth-form">
+      <input id="authEmail" class="toolinput" type="email" autocomplete="email" placeholder="Email" required>
+      <input id="authPassword" class="toolinput" type="password" autocomplete="new-password" placeholder="Parolă (minim 6 caractere)" minlength="6" required>
+      <button class="primary" id="authSubmit" type="submit">Creează cont</button>
+    </form>
+    <div id="authMessage" class="auth-message"></div>
+    <div class="auth-benefits"><span>✓ 5 credite AI gratuite</span><span>✓ Fără card</span><span>✓ Datele contului rămân în serviciul de autentificare</span></div>
+  </div>
+</div>
+
+<div id="modal" hidden><div class="modal-backdrop"></div><div class="modal-box"><button class="modal-close" id="modalClose">×</button><div id="modalBody"></div></div></div>
+<div id="toast" role="status"></div>
+<script src="script.js"></script>
+</body>
+</html>
