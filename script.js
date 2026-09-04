@@ -1,84 +1,14 @@
-const $ = (s) => document.querySelector(s);
-
-const data = {
-  phones: [
-    {name:"iPhone 17 Pro", price:"Premium", camera:"Pro camera system", battery:"All-day class"},
-    {name:"Galaxy S26 Ultra", price:"Premium", camera:"Multi-camera system", battery:"Large battery"},
-    {name:"Pixel 10 Pro", price:"Premium", camera:"Computational photography", battery:"All-day class"}
-  ],
-  cars: [
-    {name:"Dacia Duster", price:"Accesibil", engine:"Benzină / hybrid", type:"SUV"},
-    {name:"Toyota RAV4", price:"Mediu", engine:"Hybrid", type:"SUV"},
-    {name:"BMW Seria 3", price:"Premium", engine:"Benzină / hybrid", type:"Sedan"}
-  ],
-  laptops: [
-    {name:"MacBook Air", price:"Premium", processor:"Apple Silicon", use:"Productivitate"},
-    {name:"Dell XPS", price:"Premium", processor:"Intel", use:"Productivitate"},
-    {name:"Lenovo ThinkPad", price:"Mediu", processor:"Intel / AMD", use:"Business"}
-  ]
-};
-
-function scrollToId(id){ document.getElementById(id)?.scrollIntoView({behavior:"smooth"}); }
-document.querySelectorAll("[data-scroll]").forEach(b=>b.addEventListener("click",()=>scrollToId(b.dataset.scroll)));
-
-const search = $("#search"), clearSearch = $("#clearSearch"), noResults = $("#noResults");
-function filterTools(){
-  const q = search.value.trim().toLowerCase();
-  let count = 0;
-  document.querySelectorAll(".searchable").forEach(el=>{
-    const ok = !q || (el.dataset.search||"").toLowerCase().includes(q);
-    el.style.display = ok ? "" : "none";
-    if(ok) count++;
-  });
-  noResults.hidden = count !== 0 || !q;
-}
-search.addEventListener("input", filterTools);
-clearSearch.addEventListener("click",()=>{search.value="";filterTools();search.focus()});
-
-function fillCompare(){
-  const list = data[$("#compareCategory").value];
-  $("#firstItem").innerHTML = list.map((x,i)=>`<option value="${i}">${x.name}</option>`).join("");
-  $("#secondItem").innerHTML = list.map((x,i)=>`<option value="${i}" ${i===1?"selected":""}>${x.name}</option>`).join("");
-}
-function compare(){
-  const list = data[$("#compareCategory").value], a=list[+$("#firstItem").value], b=list[+$("#secondItem").value];
-  const keys=[...new Set([...Object.keys(a),...Object.keys(b)])].filter(k=>k!=="name");
-  $("#compareResult").innerHTML=`<table class="compare-table"><thead><tr><th>Caracteristică</th><th>${a.name}</th><th>${b.name}</th></tr></thead><tbody>${keys.map(k=>`<tr><td>${k}</td><td>${a[k]||"—"}</td><td>${b[k]||"—"}</td></tr>`).join("")}</tbody></table>`;
-}
-$("#compareCategory").addEventListener("change",fillCompare); $("#compareBtn").addEventListener("click",compare); fillCompare();
-
-const modal=$("#modal"), modalContent=$("#modalContent");
-function openModal(tool){
-  const forms={
-    rewrite:`<h2>Rescrie natural</h2><p>Versiune locală de demo. Pentru AI real vom conecta un model într-o etapă următoare.</p><textarea id="toolInput" placeholder="Scrie textul aici..."></textarea><button class="primary" onclick="simpleRewrite()">Rescrie</button><div id="toolResult"></div>`,
-    description:`<h2>Generator descrieri</h2><p>Introdu produsul și câteva detalii.</p><input id="productName" placeholder="Ex: căști wireless"><textarea id="productDetails" placeholder="Detalii: culoare, utilizare, beneficii..."></textarea><button class="primary" onclick="makeDescription()">Generează</button><div id="toolResult"></div>`,
-    translate:`<h2>Traducător</h2><p>Demo local pentru interfață. Traducerea AI reală va fi conectată ulterior.</p><textarea id="toolInput" placeholder="Text de tradus..."></textarea><select id="langTo"><option>English</option><option>Română</option><option>Deutsch</option><option>Français</option><option>Español</option></select><button class="primary" onclick="demoTranslate()">Tradu</button><div id="toolResult"></div>`,
-    image:`<h2>Generator imagini</h2><p>Aici vom conecta generatorul de imagini AI. Interfața este pregătită, dar nu consumă API în această versiune.</p>`,
-    vat:`<h2>Calculator TVA</h2><input id="amount" type="number" placeholder="Sumă"><input id="vatRate" type="number" value="21" placeholder="TVA %"><div class="modal-actions"><button class="primary" onclick="vatCalc(true)">Adaugă TVA</button><button class="primary" onclick="vatCalc(false)">Scoate TVA</button></div><div id="toolResult"></div>`,
-    percent:`<h2>Calculator procent</h2><input id="percentA" type="number" placeholder="Procent"><input id="percentB" type="number" placeholder="Din valoarea"><button class="primary" onclick="percentCalc()">Calculează</button><div id="toolResult"></div>`,
-    age:`<h2>Calculator vârstă</h2><input id="birth" type="date"><button class="primary" onclick="ageCalc()">Calculează</button><div id="toolResult"></div>`,
-    units:`<h2>Conversie unități</h2><p>Conversii rapide: km ↔ mile și kg ↔ lb.</p><input id="unitVal" type="number" placeholder="Valoare"><select id="unitType"><option value="km">km → mile</option><option value="mile">mile → km</option><option value="kg">kg → lb</option><option value="lb">lb → kg</option></select><button class="primary" onclick="unitCalc()">Convertește</button><div id="toolResult"></div>`,
-    password:`<h2>Generator parole</h2><p>Parola este generată local în browser.</p><input id="passLen" type="number" min="8" max="64" value="18"><button class="primary" onclick="genPassword()">Generează</button><div id="toolResult"></div>`,
-    names:`<h2>Generator de nume</h2><p>Idei rapide pentru proiecte și branduri.</p><button class="primary" onclick="genName()">Generează</button><div id="toolResult"></div>`,
-    recipe:`<h2>Idei de rețete</h2><input id="ingredients" placeholder="Ex: pui, orez, roșii"><button class="primary" onclick="genRecipe()">Dă-mi idei</button><div id="toolResult"></div>`,
-    qr:`<h2>QR Code</h2><p>Generatorul QR va fi adăugat în versiunea următoare.</p>`
-  };
-  modalContent.innerHTML=forms[tool]||"<h2>Tool</h2>";
-  modal.hidden=false;
-}
-document.querySelectorAll(".open-tool").forEach(b=>b.addEventListener("click",()=>openModal(b.dataset.tool)));
-function closeModal(){modal.hidden=true} $("#closeModal").addEventListener("click",closeModal); modal.addEventListener("click",e=>{if(e.target.dataset.close)closeModal()}); document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-
-const result=()=>$("#toolResult");
-function simpleRewrite(){const v=$("#toolInput").value.trim();result().innerHTML=`<div class="result">${v? v.replace(/\bfoarte\b/gi,"extrem de").replace(/\butil\b/gi,"practic"):"Introdu un text mai întâi."}</div>`}
-function makeDescription(){const n=$("#productName").value.trim()||"Produsul";const d=$("#productDetails").value.trim()||"ușor de folosit și potrivit pentru utilizarea de zi cu zi";result().innerHTML=`<div class="result">${n} este o alegere practică pentru cei care caută ${d}. Un produs simplu, util și potrivit pentru diferite situații.</div>`}
-function demoTranslate(){result().innerHTML=`<div class="result">Traducerea reală va fi conectată la AI. Ai ales ${$("#langTo").value}.</div>`}
-function vatCalc(add){const a=+$("#amount").value,r=+$("#vatRate").value;if(!a)return result().innerHTML='<div class="result">Introdu o sumă.</div>';const x=add?a*(1+r/100):a/(1+r/100);result().innerHTML=`<div class="result">Rezultat: ${x.toFixed(2)}</div>`}
-function percentCalc(){const a=+$("#percentA").value,b=+$("#percentB").value;result().innerHTML=`<div class="result">${((a*b)/100).toFixed(2)}</div>`}
-function ageCalc(){const d=new Date($("#birth").value),now=new Date();if(isNaN(d))return;let age=now.getFullYear()-d.getFullYear();const m=now.getMonth()-d.getMonth();if(m<0||(m===0&&now.getDate()<d.getDate()))age--;result().innerHTML=`<div class="result">Ai aproximativ ${age} ani.</div>`}
-function unitCalc(){const v=+$("#unitVal").value,t=$("#unitType").value;const f={km:v=>v*.621371,mile:v=>v*1.60934,kg:v=>v*2.20462,lb:v=>v*.453592};result().innerHTML=`<div class="result">${f[t](v).toFixed(3)}</div>`}
-function genPassword(){const chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";const n=Math.min(64,Math.max(8,+$("#passLen").value||18));let p="";for(let i=0;i<n;i++)p+=chars[Math.floor(Math.random()*chars.length)];result().innerHTML=`<div class="result">${p}</div>`}
-function genName(){const a=["Nova","Luma","Vero","Nexa","Zeno","Mira"],b=["ora","ly","via","hub","lab","flow"];result().innerHTML=`<div class="result">${a[Math.floor(Math.random()*a.length)]}${b[Math.floor(Math.random()*b.length)]}</div>`}
-function genRecipe(){const i=$("#ingredients").value.trim()||"ingredientele tale";result().innerHTML=`<div class="result">Idei pentru ${i}: bol rapid, paste, omletă sau salată. În versiunea următoare putem adăuga un generator AI real.</div>`}
-
-$("#language").addEventListener("change",e=>{document.documentElement.lang=e.target.value; if(e.target.value==="en"){document.title="Toolora — Tools in one place"; $(".hero p").textContent="Useful tools, calculators and comparisons in one simple website."; $(".hero h1").innerHTML='Everything you need,<br><span>in one place.</span>';}else{document.title="Toolora — Tools in one place"; $(".hero p").textContent="Toolora adună instrumente utile, calculatoare și comparații într-un site simplu și rapid."; $(".hero h1").innerHTML='Tot ce îți trebuie,<br><span>într-un singur loc.</span>'; }});
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const db={phones:[
+["iPhone 15","Apple","€799","6.1 OLED","48 MP","3349 mAh"],["iPhone 15 Pro","Apple","€999","6.1 OLED","48 MP","3274 mAh"],["iPhone 16","Apple","€899","6.1 OLED","48 MP","3561 mAh"],["iPhone 16 Pro","Apple","€1,199","6.3 OLED","48 MP","3582 mAh"],["Galaxy S24","Samsung","€899","6.2 AMOLED","50 MP","4000 mAh"],["Galaxy S24 Ultra","Samsung","€1,449","6.8 AMOLED","200 MP","5000 mAh"],["Galaxy S25","Samsung","€949","6.2 AMOLED","50 MP","4000 mAh"],["Galaxy S25 Ultra","Samsung","€1,449","6.9 AMOLED","200 MP","5000 mAh"],["Pixel 9","Google","€899","6.3 OLED","50 MP","4700 mAh"],["Pixel 9 Pro","Google","€999","6.3 OLED","50 MP","4700 mAh"],["OnePlus 13","OnePlus","€999","6.82 AMOLED","50 MP","6000 mAh"],["Xiaomi 14","Xiaomi","€899","6.36 AMOLED","50 MP","4610 mAh"]],
+laptops:[["MacBook Air M3","Apple","€1,099","13.6","8 GB","18 h"],["MacBook Pro 14 M4","Apple","€1,999","14.2","16 GB","24 h"],["Dell XPS 13","Dell","€1,099","13.4","16 GB","19 h"],["ThinkPad X1 Carbon","Lenovo","€1,499","14","16 GB","19 h"],["ASUS Zenbook 14","ASUS","€899","14 OLED","16 GB","15 h"],["ROG Zephyrus G14","ASUS","€1,799","14 OLED","32 GB","12 h"],["HP Spectre x360","HP","€1,399","14 OLED","16 GB","16 h"],["Acer Swift Go 14","Acer","€799","14 OLED","16 GB","12 h"]],
+cars:[["Tesla Model 3","Tesla","€39,990","283 hp","513 km","6.1 s"],["Tesla Model Y","Tesla","€44,990","347 hp","533 km","5.0 s"],["BMW 3 Series","BMW","€49,500","184 hp","650 km","7.4 s"],["BMW 5 Series","BMW","€61,000","208 hp","700 km","7.5 s"],["Mercedes C-Class","Mercedes","€52,000","170 hp","700 km","8.6 s"],["Mercedes E-Class","Mercedes","€65,000","204 hp","750 km","7.5 s"],["Audi A4","Audi","€47,000","150 hp","680 km","8.6 s"],["Audi A6","Audi","€58,000","204 hp","730 km","7.8 s"],["Toyota Camry","Toyota","€38,500","230 hp","800 km","7.2 s"],["Toyota RAV4","Toyota","€39,000","218 hp","850 km","8.1 s"],["Volkswagen Golf","Volkswagen","€27,000","150 hp","700 km","8.5 s"],["Dacia Duster","Dacia","€19,000","140 hp","800 km","10.2 s"]] ]};
+function fill(){let a=db[$("#cat").value],o=a.map((x,i)=>`<option value="${i}">${x[0]} — ${x[1]}</option>`).join("");$("#a").innerHTML=o;$("#b").innerHTML=o;$("#b").selectedIndex=1;filterMatches()}
+function filterMatches(){let a=db[$("#cat").value],q=$("#prodSearch").value.toLowerCase();$("#matches").innerHTML=a.filter(x=>x[0].toLowerCase().includes(q)||x[1].toLowerCase().includes(q)).slice(0,15).map((x)=>`<button class="match" data-name="${x[0]}">${x[0]}</button>`).join("");$$(".match").forEach(x=>x.onclick=()=>{let i=a.findIndex(v=>v[0]===x.dataset.name);$("#a").value=i;compare()})}
+function compare(){let a=db[$("#cat").value],x=a[+$("#a").value],y=a[+$("#b").value],labs=["Brand","Preț","Ecran / tip","Cameră / putere","Baterie / autonomie"];$("#result").innerHTML=`<div class="table"><div class="head">Caracteristică</div><div class="head">${x[0]}</div><div class="head">${y[0]}</div>${labs.map((l,i)=>`<div>${l}</div><div>${x[i+1]}</div><div>${y[i+1]}</div>`).join("")}</div>`}
+$("#cat").onchange=()=>{fill();compare()};$("#prodSearch").oninput=filterMatches;$("#compareBtn").onclick=compare;fill();compare();
+function modal(t){let bodies={rewrite:["Rescrie natural","Scrie textul pe care vrei să-l îmbunătățești."],description:["Descriere produs","Ex.: căști wireless, ANC, autonomie 30h."],translate:["Traducător","Scrie textul de tradus."],image:["Image Prompt","Descrie imaginea dorită." ]};if(["rewrite","description","translate","image"].includes(t)){$("#body").innerHTML=`<div class="tool"><h2>${bodies[t][0]}</h2><p>${bodies[t][1]}</p><textarea class="tooltextarea" id="input" rows="7"></textarea><div class="toolactions"><button class="primary" id="run">Generează</button><button class="secondary" id="copy">Copiază</button></div><div class="output" id="out"></div></div>`;$("#run").onclick=()=>{let v=$("#input").value.trim();$("#out").textContent=t==="image"?`Create a premium photorealistic image of ${v}. Professional lighting, clean composition, realistic materials, commercial advertising quality, 4K.`:t==="rewrite"?`Variantă îmbunătățită:\n\n${v.replace(/\s+/g," ")}`:t==="description"?`Descriere produs:\n\nDescoperă ${v}. O alegere practică, modernă și potrivită pentru utilizarea de zi cu zi.`:`Text primit:\n\n${v}\n\n[Motorul AI de traducere va fi conectat prin API.]`;};$("#copy").onclick=()=>navigator.clipboard?.writeText($("#out").innerText);return}
+let b={percent:["Calculator procent","Valoare","Procent %"],vat:["Calculator TVA","Sumă","TVA %"],password:["Generator parole","Lungime",""],units:["Conversie unități","Valoare",""],age:["Calculator vârstă","Data nașterii",""],qr:["QR Code","Link",""]}[t];$("#body").innerHTML=`<div class="tool"><h2>${b[0]}</h2><input class="toolinput" id="v1" type="${t==="age"?"date":"number"}" placeholder="${b[1]}"><input class="toolinput" id="v2" type="number" placeholder="${b[2]}" value="${t==="password"?"18":""}"><button class="primary" id="run">Calculează</button><div class="output" id="out"></div></div>`;$("#run").onclick=()=>{let x=$("#v1").value,y=+$("#v2").value,o=$("#out");if(t==="percent")o.textContent=`${y}% din ${x} = ${(x*y/100).toFixed(2)}`;if(t==="vat"){let z=x*y/100;o.textContent=`TVA: ${z.toFixed(2)}\nTotal: ${(x+z).toFixed(2)}`};if(t==="password"){let c="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";let u=new Uint32Array(+x||18);crypto.getRandomValues(u);o.textContent=[...u].map(n=>c[n%c.length]).join("")};if(t==="units")o.textContent=`${x} km = ${(x*.621371).toFixed(3)} mile`;if(t==="age"){let d=new Date(x),n=new Date(),a=n.getFullYear()-d.getFullYear();if(new Date(n.getFullYear(),d.getMonth(),d.getDate())>n)a--;o.textContent=`Vârsta: ${a} ani`};if(t==="qr")o.innerHTML=`<img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(x)}">`};}
+$$(".open").forEach(b=>b.onclick=()=>{modal(b.dataset.tool);$("#modal").hidden=false});$("#close").onclick=()=>$("#modal").hidden=true;$(".backdrop").onclick=()=>$("#modal").hidden=true;
+$("#search").oninput=e=>{let q=e.target.value.toLowerCase(),n=0;$$(".searchable").forEach(x=>{let ok=!q||x.dataset.search.includes(q);x.style.display=ok?"":"none";if(ok)n++});$("#none").hidden=n>0};document.onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("#search").focus()}if(e.key==="Escape")$("#modal").hidden=true};
+$$(".chips button").forEach(x=>x.onclick=()=>{location.hash="compare";$("#cat").value=x.dataset.cat;fill();compare()});$("#theme").onclick=()=>{document.body.classList.toggle("light");localStorage.theme=document.body.classList.contains("light")?"1":"0"};if(localStorage.theme==="1")document.body.classList.add("light");

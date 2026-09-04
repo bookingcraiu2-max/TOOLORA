@@ -1,121 +1,18 @@
-<!doctype html>
-<html lang="ro">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Toolora - utilități, calculatoare, comparații și instrumente AI într-un singur loc.">
-  <title>Toolora — Tools in one place</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header class="topbar">
-  <a class="logo" href="#home">Tool<span>ora</span></a>
-  <nav>
-    <a href="#tools">Tools</a>
-    <a href="#compare">Compare</a>
-    <a href="#calculators">Calculatoare</a>
-    <a href="#everyday">Everyday</a>
-  </nav>
-  <select id="language" aria-label="Language">
-    <option value="ro">RO</option>
-    <option value="en">EN</option>
-  </select>
-</header>
-
-<main id="home">
-  <section class="hero">
-    <div class="badge">TOOLS · AI · COMPARISONS</div>
-    <h1>Tot ce îți trebuie,<br><span>într-un singur loc.</span></h1>
-    <p>Toolora adună instrumente utile, calculatoare și comparații într-un site simplu și rapid.</p>
-
-    <div class="hero-search">
-      <span aria-hidden="true">⌕</span>
-      <input id="search" type="search" placeholder="Caută un instrument...">
-      <button id="clearSearch" type="button" aria-label="Șterge căutarea">×</button>
-    </div>
-
-    <div class="quick-links">
-      <button type="button" data-scroll="tools">AI Tools</button>
-      <button type="button" data-scroll="compare">Comparații</button>
-      <button type="button" data-scroll="calculators">Calculatoare</button>
-    </div>
-  </section>
-
-  <div id="noResults" class="no-results" hidden>Nu am găsit niciun instrument.</div>
-
-  <section class="section" id="tools">
-    <div class="section-head"><div><small>01</small><h2>AI Tools</h2></div><p>Instrumente rapide pentru text, idei și traduceri.</p></div>
-    <div class="grid">
-      <article class="card searchable" data-search="rescrie natural rewrite text ai">
-        <div class="icon">✦</div><h3>Rescrie natural</h3><p>Transformă un text rigid într-un text mai natural.</p><button class="open-tool" data-tool="rewrite">Încearcă</button>
-      </article>
-      <article class="card searchable" data-search="descriere produs anunt social media generator">
-        <div class="icon">✎</div><h3>Generator descrieri</h3><p>Creează o descriere pentru un produs sau anunț.</p><button class="open-tool" data-tool="description">Încearcă</button>
-      </article>
-      <article class="card searchable" data-search="traducator translate limbi language">
-        <div class="icon">文</div><h3>Traducător</h3><p>Pregătit pentru traduceri în mai multe limbi.</p><button class="open-tool" data-tool="translate">Deschide</button>
-      </article>
-      <article class="card searchable" data-search="generator imagini image ai">
-        <div class="icon">▧</div><h3>Generator imagini</h3><p>Interfață pregătită pentru integrarea unui generator AI.</p><button class="open-tool" data-tool="image">Deschide</button>
-      </article>
-    </div>
-  </section>
-
-  <section class="section" id="compare">
-    <div class="section-head"><div><small>02</small><h2>Compare</h2></div><p>Compară două produse din aceeași categorie.</p></div>
-    <div class="compare-panel searchable" data-search="comparatii telefoane masini laptopuri produse">
-      <div class="field"><label>Categorie</label><select id="compareCategory"><option value="phones">📱 Telefoane</option><option value="cars">🚗 Mașini</option><option value="laptops">💻 Laptopuri</option></select></div>
-      <div class="field"><label>Primul</label><select id="firstItem"></select></div>
-      <div class="vs">VS</div>
-      <div class="field"><label>Al doilea</label><select id="secondItem"></select></div>
-      <button id="compareBtn" class="primary" type="button">Compară</button>
-    </div>
-    <div id="compareResult" class="compare-result"></div>
-  </section>
-
-  <section class="section" id="calculators">
-    <div class="section-head"><div><small>03</small><h2>Calculatoare</h2></div><p>Calcule simple, direct în browser.</p></div>
-    <div class="grid">
-      <article class="card searchable" data-search="tva vat calculator taxe">
-        <div class="icon">%</div><h3>Calculator TVA</h3><p>Adaugă sau elimină TVA dintr-o sumă.</p><button class="open-tool" data-tool="vat">Calculează</button>
-      </article>
-      <article class="card searchable" data-search="procent percentage calculator">
-        <div class="icon">%</div><h3>Calculator procent</h3><p>Află rapid un procent dintr-o valoare.</p><button class="open-tool" data-tool="percent">Calculează</button>
-      </article>
-      <article class="card searchable" data-search="varsta age calculator">
-        <div class="icon">◷</div><h3>Calculator vârstă</h3><p>Calculează vârsta pornind de la data nașterii.</p><button class="open-tool" data-tool="age">Calculează</button>
-      </article>
-      <article class="card searchable" data-search="unitati conversie units converter">
-        <div class="icon">↔</div><h3>Conversie unități</h3><p>Conversii uzuale, fără instalări.</p><button class="open-tool" data-tool="units">Deschide</button>
-      </article>
-    </div>
-  </section>
-
-  <section class="section" id="everyday">
-    <div class="section-head"><div><small>04</small><h2>Everyday</h2></div><p>Unelte practice pentru lucrurile de zi cu zi.</p></div>
-    <div class="grid">
-      <article class="card searchable" data-search="parola password generator sigur">
-        <div class="icon">⌘</div><h3>Generator parole</h3><p>Generează parole puternice local, fără cont.</p><button class="open-tool" data-tool="password">Generează</button></article>
-      <article class="card searchable" data-search="nume name generator">
-        <div class="icon">A</div><h3>Generator de nume</h3><p>Idei rapide pentru proiecte, branduri sau personaje.</p><button class="open-tool" data-tool="names">Generează</button></article>
-      <article class="card searchable" data-search="retete recipe idei mancare">
-        <div class="icon">⌁</div><h3>Idei de rețete</h3><p>Primește câteva idei pornind de la ingrediente.</p><button class="open-tool" data-tool="recipe">Încearcă</button></article>
-      <article class="card searchable" data-search="qr cod qr generator">
-        <div class="icon">▦</div><h3>QR Code</h3><p>Zona pentru generatorul QR, pregătită pentru următoarea versiune.</p><button class="open-tool" data-tool="qr">Deschide</button></article>
-    </div>
-  </section>
-</main>
-
-<footer>Toolora · utilități simple, într-un singur loc.</footer>
-
-<div class="modal" id="modal" hidden>
-  <div class="modal-backdrop" data-close="1"></div>
-  <div class="modal-card" role="dialog" aria-modal="true">
-    <button class="modal-close" id="closeModal" aria-label="Închide">×</button>
-    <div id="modalContent"></div>
-  </div>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Toolora - smart comparisons, AI tools and calculators"><title>Toolora — Smart tools</title><link rel="stylesheet" href="style.css"></head><body>
+<header><a class="logo" href="#"><b>T</b> Toolora</a><nav><a href="#ai">AI</a><a href="#compare">Compare</a><a href="#tools">Tools</a></nav><button id="theme">☾</button></header>
+<section class="hero"><div><small>TOOLORA · SMART ENGINE</small><h1>Find it.<br><i>Compare it.</i><br>Use it.</h1><p>Comparații, calculatoare și instrumente inteligente într-un singur loc.</p><div class="search"><span>⌕</span><input id="search" placeholder="Caută orice… (Ctrl + K)"><button onclick="location.hash='compare'">Explorează</button></div><div class="chips"><button data-cat="phones">📱 Telefoane</button><button data-cat="laptops">💻 Laptopuri</button><button data-cat="cars">🚗 Mașini</button></div></div><aside><small>SMART SEARCH</small><div class="orb">✦</div><h3>„Vreau un telefon bun sub 3.000 lei.”</h3><p>înțelege → caută → compară → explică</p></aside></section>
+<div class="stats"><b>100+</b> produse · <b>12</b> tools · <b>0 lei</b> pentru început</div>
+<section id="ai"><div class="title"><div><small>01 / AI STUDIO</small><h2>AI Studio</h2></div><p>Unelte pregătite pentru motor AI real.</p></div><div class="grid">
+<article class="card searchable" data-search="rescrie text ai"><strong>✦</strong><h3>Rescrie natural</h3><p>Text clar, scurt sau profesional.</p><button class="open" data-tool="rewrite">Deschide →</button></article>
+<article class="card searchable" data-search="descriere produs"><strong>✎</strong><h3>Descriere produs</h3><p>Titlu, beneficii și descriere.</p><button class="open" data-tool="description">Deschide →</button></article>
+<article class="card searchable" data-search="traducator"><strong>文</strong><h3>Traducător</h3><p>Pregătit pentru traducere AI.</p><button class="open" data-tool="translate">Deschide →</button></article>
+<article class="card searchable" data-search="imagine prompt"><strong>▧</strong><h3>Image Prompt</h3><p>Prompturi pentru generatoare de imagini.</p><button class="open" data-tool="image">Deschide →</button></article></div></section>
+<section id="compare"><div class="title"><div><small>02 / COMPARE</small><h2>Compară mai mult.</h2></div><p>Caută modele, branduri sau produse din catalog.</p></div><div class="compare"><div class="bar"><select id="cat"><option value="phones">📱 Telefoane</option><option value="laptops">💻 Laptopuri</option><option value="cars">🚗 Mașini</option></select><input id="prodSearch" placeholder="Caută model sau brand…"></div><div id="matches"></div><div class="pick"><select id="a"></select><b>VS</b><select id="b"></select><button id="compareBtn">Compară</button></div><div id="result"></div></div><div class="note"><b>✦ AI + LIVE DATA</b><span>Următorul upgrade va permite căutarea modelelor care nu sunt în catalog, preluarea datelor și explicații AI. Necesită API/backend.</span></div></section>
+<section id="tools"><div class="title"><div><small>03 / TOOLS</small><h2>Everyday tools</h2></div><p>Funcționează direct în browser.</p></div><div class="grid">
+<article class="card searchable" data-search="procent calculator"><strong>%</strong><h3>Calculator procent</h3><p>Procent dintr-o valoare.</p><button class="open" data-tool="percent">Calculează →</button></article>
+<article class="card searchable" data-search="tva vat"><strong>▣</strong><h3>Calculator TVA</h3><p>Adaugă TVA unei sume.</p><button class="open" data-tool="vat">Calculează →</button></article>
+<article class="card searchable" data-search="parola password"><strong>⌘</strong><h3>Generator parole</h3><p>Parole generate local.</p><button class="open" data-tool="password">Generează →</button></article>
+<article class="card searchable" data-search="unitati conversie"><strong>↔</strong><h3>Conversie unități</h3><p>km, mile, kg, lb, °C, °F.</p><button class="open" data-tool="units">Deschide →</button></article>
+<article class="card searchable" data-search="varsta age"><strong>◷</strong><h3>Calculator vârstă</h3><p>Vârsta după data nașterii.</p><button class="open" data-tool="age">Calculează →</button></article>
+<article class="card searchable" data-search="qr code"><strong>▦</strong><h3>QR Code</h3><p>QR pentru orice link.</p><button class="open" data-tool="qr">Generează →</button></article></div><p id="none" hidden>Nu am găsit nimic.</p></section><footer>Toolora © 2026 · Smart tools. Better decisions.</footer>
+<div id="modal" hidden><div class="backdrop"></div><div class="modal"><button id="close">×</button><div id="body"></div></div></div><div id="toast"></div><script src="script.js"></script></body></html>
