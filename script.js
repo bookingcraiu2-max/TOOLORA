@@ -15,7 +15,54 @@ $('#cameraBtn').addEventListener('click',()=>{fileInput.setAttribute('capture','
 $('#removeBtn').addEventListener('click',()=>{state.file=null;state.dataUrl=null;$('#preview').hidden=true;$('#dropzone').hidden=false;fileInput.value='';updateSolve()});
 fileInput.addEventListener('change',e=>{if(e.target.files[0]) handleFile(e.target.files[0])});
 ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.remove('drag')}));dropzone.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f)});
-function handleFile(file){if(file.size>8*1024*1024){setStatus('Imaginea este prea mare. Folosește un fișier de maximum 8 MB.');return} if(!/^image\/(jpeg|png|webp|heic|heif)$/.test(file.type)){setStatus('Pentru rezolvare, folosește o imagine JPG, PNG, WEBP sau HEIC.');return}state.file=file;const r=new FileReader();r.onload=()=>{state.dataUrl=r.result;$('#previewImg').src=state.dataUrl;$('#fileName').textContent=file.name;$('#preview').hidden=false;$('#dropzone').hidden=true;updateSolve()};r.readAsDataURL(file)}
+async function handleFile(file){
+  if(file.size>12*1024*1024){setStatus('Imaginea este prea mare. Folosește un fișier de maximum 12 MB.');return}
+  if(!/^image\/(jpeg|jpg|png|webp|heic|heif)$/i.test(file.type)){setStatus('Pentru rezolvare, folosește o imagine JPG, PNG, WEBP sau HEIC.');return}
+  setStatus('Pregătesc imaginea…');
+  try{
+    const dataUrl=await optimizeImageForAI(file);
+    state.file=file;
+    state.dataUrl=dataUrl;
+    $('#previewImg').src=dataUrl;
+    $('#fileName').textContent=file.name;
+    $('#preview').hidden=false;
+    $('#dropzone').hidden=true;
+    setStatus('Poza este pregătită.');
+    updateSolve();
+  }catch(e){
+    console.error(e);
+    setStatus('Nu am putut procesa poza. Încearcă JPG sau PNG.');
+  }
+}
+
+function optimizeImageForAI(file){
+  return new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
+    img.onload=()=>{
+      try{
+        // Păstrăm suficientă rezoluție pentru text, dar micșorăm pozele uriașe
+        // pentru ca cererea către AI să fie mai rapidă.
+        const maxSide=2400;
+        const scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+        const w=Math.max(1,Math.round(img.naturalWidth*scale));
+        const h=Math.max(1,Math.round(img.naturalHeight*scale));
+        const canvas=document.createElement('canvas');
+        canvas.width=w; canvas.height=h;
+        const ctx=canvas.getContext('2d',{alpha:false});
+        if(!ctx) throw new Error('Canvas unavailable');
+        ctx.imageSmoothingEnabled=true;
+        ctx.imageSmoothingQuality='high';
+        ctx.drawImage(img,0,0,w,h);
+        const out=canvas.toDataURL('image/jpeg',0.88);
+        URL.revokeObjectURL(url);
+        resolve(out);
+      }catch(err){URL.revokeObjectURL(url);reject(err)}
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Image decode failed'))};
+    img.src=url;
+  });
+}
 function updateSolve(){solveBtn.disabled=!(state.file&&classSelect.value&&subjectSelect.value)}
 classSelect.addEventListener('change',updateSolve);subjectSelect.addEventListener('change',updateSolve);
 function setStatus(t){$('#solveStatus').textContent=t||''}
