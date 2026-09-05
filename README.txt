@@ -1,47 +1,28 @@
-TOOLORA V4
-==========
+TOOLORA SCHOOL
 
-Ce este nou:
-- meniu hamburger cu căutare internă;
-- bara principală de căutare funcționează pentru tool-uri și produse;
-- AI real pentru rescriere, descrieri, traducere și Smart Compare;
-- generator de imagini prin Cloudflare Workers AI + FLUX.1 schnell;
-- catalog extins pentru mașini, telefoane și laptopuri;
-- Smart Compare acceptă și modele scrise manual, nu doar cele din catalog;
-- QR Code reparat cu input de tip text + link de descărcare/deschidere;
-- sunete subtile la apăsarea butoanelor, cu buton ON/OFF;
-- Text Counter, JSON Formatter, Color Palette, Unit Converter, Age, Slug, Color Picker;
-- Image Compressor local în browser;
-- design nou cosmic/futurist, textură, grid, orbită și footer „Built by Society.”;
-- codul AdSense existent a fost păstrat în <head>.
+Versiune nouă, fără cont și fără abonament.
 
-IMPORTANT — ACTIVAREA AI ÎN CLOUDFLARE
-1. Cloudflare Dashboard → Workers & Pages.
-2. Deschide proiectul Pages „toolora”.
-3. Settings → Bindings.
-4. Add → Workers AI.
-5. Variable name: AI.
-6. Salvează.
-7. Redeploy proiectul.
+Structură:
+- index.html — interfața principală
+- style.css — design minimalist, student-focused
+- script.js — upload/camera, rezolvare, chatbot, UI
+- functions/api/ai.js — Cloudflare Pages Function pentru Workers AI
 
-După binding, endpointul /api/ai va activa:
-- rewrite
-- description
-- translate
-- compare
-- image
+AI:
+- Model: @cf/google/gemma-4-26b-a4b-it
+- Vision + OCR + handwriting + reasoning
+- Workers AI binding necesar: AI
 
-Workers AI are o alocare gratuită zilnică de 10.000 Neurons, iar unele modele/consumuri pot necesita plan Paid sau pot genera costuri după depășirea alocării. Verifică dashboard-ul Cloudflare înainte de trafic mare.
+Cloudflare Pages:
+1. Urcă toate fișierele în repo.
+2. Project settings → Functions/Workers AI → binding AI.
+3. Deploy.
+4. Testează /api/ai în browser: trebuie să răspundă JSON cu service/status.
 
-NOTĂ DESPRE QR
-QR-ul folosește un serviciu extern de generare prin imagine. Dacă serviciul extern nu răspunde temporar, butonul va afișa o eroare și utilizatorul poate încerca din nou.
-
-DEPLOY
-Pentru GitHub + Cloudflare Pages, urcă:
-- index.html
-- style.css
-- script.js
-- functions/api/ai.js
-- README.txt
-
-Nu șterge codul AdSense din index.html.
+IMPORTANT:
+- Site-ul este pregătit pentru imagini JPG/PNG/WEBP/HEIC până la 8 MB.
+- Camera de pe telefon este declanșată prin input capture=environment.
+- PDF este afișat în textul UI pentru compatibilitate viitoare, dar endpointul de rezolvare din această versiune acceptă imagine.
+- Fără cont înseamnă că trebuie adăugată ulterior o protecție anti-abuz/rate limit înainte de trafic mare, pentru a proteja bugetul Workers AI.
+- AdSense scriptul și sloturile automate sunt păstrate.
+- Nu există Supabase, Stripe, login, credite, Pro sau Ultimate în această versiune.
