@@ -48,6 +48,8 @@ function formatAIText(text){
 
   // Elimină delimitatorii LaTeX rămași și comenzile de spațiere.
   s=s.replace(/\\\(|\\\)|\\\[|\\\]/g,'');
+  // Unele modele folosesc $...$ pentru formule; pe site vrem textul fără delimitatori.
+  s=s.replace(/\$/g,'');
   s=s.replace(/\\(?:text|mathrm|mathbf|mathit|operatorname)\{([^{}]*)\}/g,'$1');
   s=s.replace(/\\,/g,' ').replace(/\\;/g,' ').replace(/\\!/g,'');
 
