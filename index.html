@@ -3,37 +3,54 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f7f4">
+  <meta name="theme-color" content="#07110c">
   <meta name="description" content="Toolora School — rezolvă exerciții, teme și teste din poze. Gratuit, fără cont.">
-  <title>Toolora School — Rezolvă. Învață. Simplu.</title>
+  <title>Toolora School — Învață mai simplu.</title>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1690258918399231" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="grain"></div>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div><div class="grid-bg"></div>
+
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="Toolora School acasă"><span class="brand-mark">T</span><span>Toolora <b>School</b></span></a>
+    <a class="brand" href="#top" aria-label="Toolora School acasă">
+      <span class="brand-mark">T</span><span>Toolora <b>School</b></span>
+    </a>
     <nav>
       <a href="#rezolva">Rezolvă</a><a href="#materii">Materii</a><a href="#chat">ChatBot</a><a href="#ajutor">Ajutor</a>
     </nav>
-    <button class="menu-btn" id="menuBtn" aria-label="Meniu">☰</button>
+    <div class="top-actions"><span class="free-top">● 100% GRATUIT</span><button class="menu-btn" id="menuBtn" aria-label="Meniu">☰</button></div>
   </header>
   <div class="mobile-menu" id="mobileMenu"><a href="#rezolva">Rezolvă</a><a href="#materii">Materii</a><a href="#chat">Toolora ChatBot</a><a href="#ajutor">Ajutor</a></div>
 
   <main id="top">
     <section class="hero shell">
       <div class="hero-copy">
-        <div class="eyebrow"><span>🎓</span> Pentru elevi · 100% gratuit · fără cont</div>
-        <h1>Toolora <em>School</em></h1>
-        <p class="lead">Fă o poză cu exercițiul, tema sau testul. <strong>Toolora îl rezolvă.</strong></p>
-        <p class="sublead">Alege clasa și materia, încarcă o imagine sau folosește camera. Primești răspunsul clar, rapid și adaptat nivelului tău.</p>
-        <div class="quick-pills"><span>📷 Poză sau cameră</span><span>⚡ Rezolvare rapidă</span><span>🔓 Fără cont</span></div>
+        <div class="eyebrow"><span class="pulse"></span> TOOLORA SCHOOL · PENTRU ELEVI</div>
+        <h1>Învață mai simplu.<br><span>Rezolvă mai repede.</span></h1>
+        <p class="lead">Fă o poză cu exercițiul, tema sau testul. <strong>Toolora citește, explică și rezolvă.</strong></p>
+        <div class="hero-actions"><a class="hero-cta" href="#rezolva">Începe o rezolvare <span>→</span></a><a class="hero-link" href="#chat">Vorbește cu ChatBot</a></div>
+        <div class="trust-row"><span>✓ Fără cont</span><span>✓ Gratuit</span><span>✓ Clasele V–XII</span><span>✓ Din poză</span></div>
       </div>
-      <div class="solver-card" id="rezolva">
-        <div class="solver-head"><div><span class="tiny-label">TOOLORA SCHOOL</span><h2>Ce vrei să rezolvi?</h2></div><span class="free-badge">GRATUIT</span></div>
+      <div class="hero-panel">
+        <div class="panel-top"><span class="panel-dot"></span><span>TOOLORA AI</span><span class="panel-status">ONLINE</span></div>
+        <div class="hero-screen">
+          <div class="screen-label">AI STUDY MODE</div>
+          <div class="fake-question">2(x − 3) + 5 = 17</div>
+          <div class="fake-line"><i></i><i></i><i></i></div>
+          <div class="fake-answer"><span>✓</span><div><b>Rezolvare găsită</b><small>x = 9</small></div></div>
+          <div class="mini-stats"><div><b>V–XII</b><small>clase</small></div><div><b>45+</b><small>materii</small></div><div><b>AI</b><small>vision</small></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="solver-wrap shell" id="rezolva">
+      <div class="section-intro"><div><div class="section-kicker">01 · REZOLVĂ</div><h2>Ai tema? <span>Pune poza.</span></h2><p>Alege ce ai de făcut, selectează clasa și materia, apoi lasă Toolora să lucreze.</p></div><div class="step-badge"><b>3 pași</b><small>și ai răspunsul</small></div></div>
+      <div class="solver-card">
+        <div class="solver-head"><div><span class="tiny-label">TOOLORA SCHOOL</span><h3>Ce vrei să rezolvi?</h3></div><span class="free-badge">GRATUIT</span></div>
         <div class="mode-grid" id="modeGrid">
           <button class="mode active" data-mode="exercise"><span>✏️</span><b>Exercițiu</b><small>o problemă / câteva exerciții</small></button>
           <button class="mode" data-mode="homework"><span>📚</span><b>Temă</b><small>mai multe exerciții</small></button>
@@ -45,7 +62,7 @@
         </div>
         <div class="dropzone" id="dropzone">
           <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf" hidden>
-          <div class="drop-icon">↑</div><h3 id="dropTitle">Încarcă o poză</h3><p id="dropHint">Alege din galerie sau trage fișierul aici</p>
+          <div class="drop-icon">↑</div><h4 id="dropTitle">Încarcă o poză</h4><p id="dropHint">Alege din galerie sau trage fișierul aici</p>
           <div class="upload-actions"><button class="secondary" id="chooseBtn" type="button">🖼️ Galerie</button><button class="primary" id="cameraBtn" type="button">📷 Fă o poză</button></div>
           <small>JPG, PNG, WEBP sau PDF · max. 8 MB</small>
         </div>
@@ -55,29 +72,29 @@
       </div>
     </section>
 
-    <div class="ad-wrap shell"><div class="ad-label">Reclamă</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1690258918399231" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+    <div class="ad-wrap shell"><div class="ad-label">RECLAMĂ</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1690258918399231" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 
     <section class="result-section shell" id="resultSection" hidden>
-      <div class="section-kicker">REZOLVARE</div><div class="result-head"><h2>Răspunsul Toolora</h2><button id="copyBtn" class="small-btn">Copiază</button></div>
-      <div class="result-grid"><div class="answer-card" id="answerCard"></div><aside class="result-side"><div class="tip-card"><span>💡</span><b>Mică verificare</b><p>Compară răspunsul cu cerința și verifică pașii înainte să predai tema.</p></div><button class="outline-btn" id="newSolveBtn">Rezolvă altceva</button></aside></div>
+      <div class="section-kicker">02 · REZULTAT</div><div class="result-head"><div><h2>Răspunsul Toolora</h2><p>Rezolvarea ta, clară și ușor de urmărit.</p></div><button id="copyBtn" class="small-btn">Copiază</button></div>
+      <div class="result-grid"><div class="answer-card" id="answerCard"></div><aside class="result-side"><div class="tip-card"><span>💡</span><b>Mică verificare</b><p>Compară răspunsul cu cerința și verifică pașii înainte să predai tema.</p></div><button class="outline-btn" id="newSolveBtn">+ Rezolvă altceva</button></aside></div>
     </section>
 
     <section class="subjects shell" id="materii">
-      <div class="section-kicker">MATERII</div><h2>De la matematică la filosofie.</h2><p>Toolora School poate lucra cu materii școlare și de profil, de la clasele V–XII.</p>
+      <div class="section-kicker">03 · MATERII</div><div class="section-title-row"><div><h2>Tot ce ai la școală.</h2><p>De la matematică și română până la informatică, fizică sau economie.</p></div><span class="subject-count">45+ materii</span></div>
       <div class="subject-cloud" id="subjectCloud"></div>
     </section>
 
     <section class="chat-section shell" id="chat">
-      <div class="chat-copy"><div class="section-kicker">TOOLORA CHATBOT</div><h2>Un chat doar pentru școală.</h2><p>Întreabă despre lecții, exerciții, examene, învățare, colegi, bullying sau alte situații legate de viața de elev.</p><span class="chat-rule">🎓 Dacă nu ține de școală, chatbotul te va redirecționa.</span></div>
-      <div class="chat-card"><div class="chat-top"><span class="bot-dot">T</span><div><b>Toolora ChatBot</b><small>Asistentul tău pentru școală</small></div><span class="online">●</span></div><div class="messages" id="messages"><div class="msg bot">Salut! 👋 Sunt Toolora ChatBot. Spune-mi cu ce ai nevoie de ajutor la școală.</div></div><div class="chat-input"><textarea id="chatInput" rows="1" placeholder="Ex: explică-mi fotosinteza simplu..."></textarea><button id="sendChat" aria-label="Trimite">↑</button></div></div>
+      <div class="chat-copy"><div class="section-kicker">04 · TOOLORA CHATBOT</div><h2>Ai o întrebare?<br><span>Întreabă AI-ul.</span></h2><p>Un chatbot făcut pentru școală: lecții, exerciții, examene, învățare și situații din viața de elev.</p><span class="chat-rule">🎓 Fără cont · doar intri și întrebi</span></div>
+      <div class="chat-card"><div class="chat-top"><span class="bot-dot">T</span><div><b>Toolora ChatBot</b><small>Asistentul tău pentru școală</small></div><span class="online">● ONLINE</span></div><div class="messages" id="messages"><div class="msg bot">Salut! 👋 Sunt Toolora ChatBot. Spune-mi cu ce ai nevoie de ajutor la școală.</div></div><div class="chat-input"><textarea id="chatInput" rows="1" placeholder="Ex: explică-mi fotosinteza simplu..."></textarea><button id="sendChat" aria-label="Trimite">↑</button></div></div>
     </section>
 
-    <div class="ad-wrap shell"><div class="ad-label">Reclamă</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1690258918399231" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+    <div class="ad-wrap shell"><div class="ad-label">RECLAMĂ</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1690258918399231" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 
-    <section class="features shell" id="ajutor"><div class="section-kicker">MAI MULT</div><h2>Gândit pentru elevi.</h2><div class="feature-grid"><article><span>🧠</span><h3>Explicații pe nivel</h3><p>Răspunsurile pot fi scurte sau mai explicate, în funcție de clasă și cerință.</p></article><article><span>🔍</span><h3>Citire din poze</h3><p>Modelul poate interpreta text tipărit, formule, tabele și scris de mână când imaginea este lizibilă.</p></article><article><span>✅</span><h3>Verificare</h3><p>Poți pune și propriul răspuns pentru a cere verificarea lui.</p></article><article><span>🗓️</span><h3>Pregătire pentru examene</h3><p>Folosește chatul pentru recapitulare, întrebări și planuri de învățare.</p></article></div></section>
+    <section class="features shell" id="ajutor"><div class="section-kicker">05 · DE CE TOOLORA</div><div class="section-title-row"><div><h2>Fă școala mai ușoară.</h2><p>Instrumente simple, fără conturi și fără complicații.</p></div></div><div class="feature-grid"><article><span>🧠</span><h3>Explicații pe nivel</h3><p>Răspunsuri adaptate clasei și cerinței tale.</p></article><article><span>👁️</span><h3>Citire din poze</h3><p>Text tipărit, formule, tabele și scris de mână când imaginea este lizibilă.</p></article><article><span>⚡</span><h3>Rapid și simplu</h3><p>Încarci poza, alegi materia și primești rezultatul.</p></article><article><span>🎯</span><h3>Pregătire pentru examene</h3><p>Folosește chatul pentru recapitulare, întrebări și planuri de învățare.</p></article></div></section>
   </main>
 
-  <footer><div class="shell footer-inner"><div><div class="brand"><span class="brand-mark">T</span><span>Toolora <b>School</b></span></div><p>Învățare mai simplă. Rezolvări mai clare.</p></div><div class="footer-links"><a href="#ajutor">Ajutor</a><a href="#chat">ChatBot</a><a href="#top">Sus ↑</a></div></div><div class="copyright">© 2026 Toolora School · Gratuit pentru elevi</div></footer>
+  <footer><div class="shell footer-inner"><div><div class="brand"><span class="brand-mark">T</span><span>Toolora <b>School</b></span></div><p>Învățare mai simplă. Rezolvări mai clare.</p></div><div class="footer-links"><a href="#rezolva">Rezolvă</a><a href="#chat">ChatBot</a><a href="#materii">Materii</a><a href="#top">Sus ↑</a></div></div><div class="copyright">© 2026 Toolora School · Gratuit pentru elevi</div></footer>
   <script src="script.js"></script>
 </body>
 </html>
